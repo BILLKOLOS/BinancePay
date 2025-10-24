@@ -155,6 +155,27 @@
     .copy-btn:active {
       transform: scale(0.98);
     }
+    .binance-link {
+      display: inline-block;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 12px 32px;
+      border-radius: 8px;
+      background: rgba(255,215,0,0.2);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      transition: all 0.3s;
+      letter-spacing: 0.05em;
+    }
+    .binance-link:hover {
+      background: rgba(255,215,0,0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(255,215,0,0.25);
+    }
+    .binance-link:active {
+      transform: scale(0.98);
+    }
     .qr-section {
       margin: 26px 0 18px 0;
       text-align: center;
@@ -370,6 +391,13 @@
           alt="Wallet Address QR"
           title="Scan to get wallet address"
         />
+      </div>
+
+      <div style="margin: 20px 0; padding: 16px; background: rgba(255,215,0,0.06); border-radius: 10px; border: 1px solid rgba(255,215,0,0.1);">
+        <div style="font-size: 0.95rem; color: var(--white); margin-bottom: 12px; opacity: 0.9;">Pay directly via Binance Pay:</div>
+        <a href="https://pay.binance.com/en" target="_blank" id="binancePayLink" style="display: inline-block; text-decoration: none; font-size: 1.05rem; font-weight: 600; padding: 12px 32px; border-radius: 8px; background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid var(--gold); transition: all 0.3s; letter-spacing: 0.05em;">
+          🔐 Login to Binance Pay
+        </a>
       </div>
       
       <button class="pay-btn" id="payBtn">I've Completed the Payment</button>
