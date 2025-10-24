@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BinancePay Secure Payment</title>
   <style>
     :root {
+      /* Primary palette changed to gold + deep black to match the visual effect */
       --gold: #FFD700;
-      --neon: #00C851;
-      --dark: #13151a;
-      --frost: rgba(34,36,50,0.82);
+      --gold-dark: #c79600;
+      --accent: #b8860b; /* darker gold accent */
+      --black: #0b0b0b;
+      --frost: rgba(6, 6, 6, 0.72);
       --white: #f8f8f8;
       --transition: 0.32s cubic-bezier(.4,0,.2,1);
     }
@@ -17,7 +19,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: var(--dark);
+      background: linear-gradient(180deg, #050505 0%, var(--black) 100%);
       font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
       color: var(--white);
       min-height: 100vh;
@@ -30,10 +32,11 @@
       z-index: -1;
       left: 0; top: 0; width: 100vw; height: 100vh;
       background:
-        radial-gradient(ellipse 65% 40% at 52% 42%, rgba(0,200,81,0.12), transparent),
-        radial-gradient(ellipse 30% 18% at 30% 80%, rgba(255,215,0,0.09), transparent);
-      opacity: 0.7;
+        radial-gradient(ellipse 65% 40% at 52% 42%, rgba(255,215,0,0.08), transparent),
+        radial-gradient(ellipse 30% 18% at 30% 80%, rgba(199,150,0,0.05), transparent);
+      opacity: 0.9;
       pointer-events: none;
+      mix-blend-mode: soft-light;
     }
     .container {
       flex: 1 0 auto;
@@ -53,12 +56,12 @@
       background: var(--frost);
       border-radius: 22px;
       padding: 48px 36px 54px 36px;
-      box-shadow: 0 8px 44px 0 rgba(0, 200, 81, 0.09), 0 2px 18px 0 rgba(255, 215, 0, 0.09);
-      backdrop-filter: blur(8px) saturate(180%);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 6px 30px rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px) saturate(120%);
       text-align: center;
       max-width: 410px;
       width: 100%;
-      border: 1px solid rgba(255, 215, 0, 0.13);
+      border: 1px solid rgba(217,165,0,0.12);
       animation: fadeInCard 1.2s cubic-bezier(.4,0,.2,1);
       position: relative;
       overflow: hidden;
@@ -73,25 +76,25 @@
       letter-spacing: 0.045em;
       margin-bottom: 14px;
       color: var(--gold);
-      text-shadow: 0 0 18px var(--gold), 0 0 4px var(--neon);
+      text-shadow: 0 0 18px rgba(255,215,0,0.18), 0 0 6px rgba(199,150,0,0.12);
     }
     .subtitle {
       font-size: 1.15rem;
       font-weight: 400;
       margin-bottom: 28px;
       color: var(--white);
-      opacity: 0.97;
+      opacity: 0.95;
       letter-spacing: 0.018em;
     }
     .amount-label {
       display: block;
       font-size: 1.04rem;
-      color: var(--neon);
+      color: var(--gold-dark);
       font-weight: 600;
       letter-spacing: 0.08em;
       margin-bottom: 18px;
-      text-shadow: 0 0 6px var(--neon);
-      opacity: 0.89;
+      text-shadow: 0 0 6px rgba(199,150,0,0.06);
+      opacity: 0.96;
     }
     .qr-section {
       margin: 26px 0 18px 0;
@@ -106,25 +109,26 @@
       font-size: 1.01rem;
       color: var(--gold);
       margin-bottom: 2px;
-      opacity: 0.88;
-      text-shadow: 0 0 6px var(--gold);
+      opacity: 0.9;
+      text-shadow: 0 0 6px rgba(255,215,0,0.08);
       font-weight: 500;
       letter-spacing: 0.04em;
     }
     .qr-img {
-      background: #222;
+      background: #0b0b0b;
       padding: 10px;
       border-radius: 15px;
-      box-shadow: 0 0 14px var(--neon), 0 0 4px var(--gold);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 8px rgba(217,165,0,0.06) inset;
       width: 160px;
       height: 160px;
       object-fit: contain;
       transition: box-shadow 0.3s;
       margin-bottom: 6px;
+      border: 1px solid rgba(217,165,0,0.09);
     }
     .qr-img:hover {
-      box-shadow: 0 0 32px var(--neon), 0 0 14px var(--gold);
-      filter: brightness(1.07);
+      box-shadow: 0 0 38px rgba(217,165,0,0.14), 0 0 18px rgba(199,150,0,0.08);
+      filter: brightness(1.06);
     }
     @keyframes fadeInQR {
       from { opacity: 0; transform: scale(0.7);}
@@ -133,13 +137,13 @@
     .pay-btn {
       display: inline-block;
       font-size: 1.16rem;
-      font-weight: 500;
+      font-weight: 600;
       padding: 16px 46px;
       border-radius: 50px;
       border: none;
-      background: linear-gradient(90deg, var(--gold) 5%, var(--neon) 95%);
+      background: linear-gradient(90deg, var(--gold) 5%, var(--gold-dark) 95%);
       color: #111;
-      box-shadow: 0 0 24px var(--neon), 0 0 6px var(--gold);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55), 0 0 18px rgba(217,165,0,0.12);
       cursor: pointer;
       outline: none;
       transition:
@@ -151,21 +155,21 @@
       position: relative;
       margin-bottom: 24px;
       letter-spacing: 0.09em;
-      text-shadow: 0 0 8px rgba(255,255,255,0.13);
-      filter: brightness(1.08);
+      text-shadow: 0 0 6px rgba(255,255,255,0.06);
+      filter: brightness(1.02);
     }
     .pay-btn:hover,
     .pay-btn:focus {
-      box-shadow: 0 0 36px var(--neon), 0 0 18px var(--gold);
-      transform: translateY(-2px) scale(1.045);
-      background: linear-gradient(90deg, var(--neon) 8%, var(--gold) 92%);
-      color: #181a1f;
-      filter: brightness(1.13);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.6), 0 0 36px rgba(217,165,0,0.18);
+      transform: translateY(-2px) scale(1.03);
+      background: linear-gradient(90deg, var(--gold-dark) 8%, var(--gold) 92%);
+      color: #0b0b0b;
+      filter: brightness(1.07);
     }
     .pay-btn:active {
-      transform: scale(0.97);
-      filter: brightness(0.96);
-      opacity: 0.99;
+      transform: scale(0.98);
+      filter: brightness(0.98);
+      opacity: 0.995;
     }
     .spinner {
       display: none;
@@ -182,11 +186,11 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      border: 7px solid var(--neon);
+      border: 7px solid rgba(199,150,0,0.28);
       border-top: 7px solid var(--gold);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      box-shadow: 0 0 28px var(--neon), 0 0 8px var(--gold);
+      box-shadow: 0 0 20px rgba(217,165,0,0.18);
     }
     @keyframes spin {
       0% { transform: rotate(0deg);}
@@ -210,13 +214,13 @@
     }
     footer {
       flex-shrink: 0;
-      background: #181a20;
-      color: #bbb;
+      background: #080808;
+      color: #cfc6a6;
       font-size: 0.98rem;
       text-align: center;
       padding: 16px 0 10px 0;
       letter-spacing: 0.03em;
-      border-top: 1px solid #232323;
+      border-top: 1px solid rgba(255,215,0,0.04);
       width: 100%;
       margin-top: 32px;
       opacity: 0.93;
@@ -292,21 +296,28 @@
   <footer>
     © 2025 BinancePay&nbsp;|&nbsp;Powered by Binance Pay
   </footer>
+
   <script>
-    // Your Binance Pay link for 2050 USDT
-    const binancePayLink = "https://pay.binance.com/en/pay?code=2050USDT_EXAMPLE";
+    // Use a working Binance Pay / Binance landing URL instead of a placeholder code that caused 404.
+    // The link below points to the Binance Pay landing; if you have a specific Pay code you'd like to use,
+    // replace binancePayLink with the actual working link provided by Binance Pay.
+    const binancePayLink = "https://pay.binance.com/en";
 
     // Fade-in animation for container & generate QR code
     window.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.container').style.opacity = '0';
+      const container = document.querySelector('.container');
+      container.style.opacity = '0';
       setTimeout(() => {
-        document.querySelector('.container').style.transition = 'opacity 0.9s';
-        document.querySelector('.container').style.opacity = '1';
+        container.style.transition = 'opacity 0.9s';
+        container.style.opacity = '1';
       }, 130);
 
-      // Generate QR code
+      // Generate QR code that points to the working Binance Pay URL above.
       const qrImg = document.getElementById('qrcode');
-      const qrSize = Math.min(160, Math.floor(window.innerWidth * 0.33));
+      // choose a QR size that adapts to the viewport
+      const defaultSize = 160;
+      const qrSize = Math.min(defaultSize, Math.floor(window.innerWidth * 0.33));
+      // Google Chart API is used for simple QR generation; the QR encodes the real binancePayLink
       const qrURL =
         "https://chart.googleapis.com/chart?cht=qr&chs="
         + qrSize + "x" + qrSize
@@ -320,14 +331,20 @@
     const processingMsg = document.getElementById('processingMsg');
 
     payBtn.addEventListener('click', function() {
+      // Disable the button & show processing UI
       payBtn.disabled = true;
       payBtn.style.opacity = '0.7';
       spinner.classList.add('active');
       processingMsg.classList.add('active');
+      const originalText = payBtn.textContent;
       payBtn.textContent = "Processing...";
+
+      // After a short processing animation, navigate to Binance Pay landing page.
+      // This prevents the broken placeholder behavior previously causing 404s.
       setTimeout(() => {
+        // Use location.href to navigate in the same tab.
         window.location.href = binancePayLink;
-      }, 2500);
+      }, 2200);
     });
   </script>
 </body>
