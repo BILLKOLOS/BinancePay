@@ -190,6 +190,9 @@
       filter: brightness(0.98);
       opacity: 0.995;
     }
+    .pay-btn:disabled {
+      cursor: not-allowed;
+    }
     .spinner {
       display: none;
       margin: 32px auto 0 auto;
@@ -230,6 +233,24 @@
     @keyframes fadeInProcessing {
       from { opacity: 0;}
       to { opacity: 0.88;}
+    }
+    .success-msg {
+      display: none;
+      font-size: 1.05rem;
+      color: #4ade80;
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(74, 222, 128, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      animation: fadeInSuccess 0.5s;
+    }
+    .success-msg.active {
+      display: block;
+    }
+    @keyframes fadeInSuccess {
+      from { opacity: 0; transform: translateY(-10px);}
+      to { opacity: 1; transform: translateY(0);}
     }
     .info-text {
       font-size: 0.95rem;
@@ -335,9 +356,10 @@
         <div class="spinner-circle"></div>
       </div>
       <div class="processing-msg" id="processingMsg">Opening Binance Wallet&hellip;</div>
+      <div class="success-msg" id="successMsg">✓ Redirecting to Binance...</div>
       
       <div class="info-text">
-        Click the button to open Binance app with payment details pre-filled. Make sure you have the Binance app installed.
+        Click the button to open Binance app with payment details. Make sure you have Binance installed or use the web version.
       </div>
     </div>
   </div>
@@ -382,6 +404,7 @@
     const payBtn = document.getElementById('payBtn');
     const spinner = document.getElementById('spinner');
     const processingMsg = document.getElementById('processingMsg');
+    const successMsg = document.getElementById('successMsg');
 
     payBtn.addEventListener('click', function() {
       // Disable button and show processing UI
@@ -400,39 +423,53 @@
         timestamp: paymentData.timestamp
       };
 
-      // Create Binance Web3 Wallet deep link
-      // Format: bnc://app.binance.com/mp/app?appId=transferOut&startPagePath=pages/transfer/index&startPageQuery=
-      // Parameters: toAddress, amount, token, chain
+      // Binance deep link for mobile app (multiple formats for compatibility)
+      const deepLinks = [
+        `binance://app?action=send&coin=USDT&address=${encodeURIComponent(WALLET_ADDRESS)}&amount=${PAYMENT_AMOUNT}&network=TRX`,
+        `bnc://app.binance.com/payment?address=${encodeURIComponent(WALLET_ADDRESS)}&amount=${PAYMENT_AMOUNT}&currency=USDT&network=TRC20`
+      ];
       
-      const deepLinkParams = {
-        toAddress: WALLET_ADDRESS,
-        amount: PAYMENT_AMOUNT,
-        token: 'USDT',
-        chain: 'TRX' // Tron network identifier
-      };
-      
-      // Build the query string for deep link
-      const queryString = Object.keys(deepLinkParams)
-        .map(key => `${key}=${encodeURIComponent(deepLinkParams[key])}`)
-        .join('&');
-      
-      // Binance Web3 Wallet deep link URL
-      const deepLink = `bnc://app.binance.com/mp/app?appId=transferOut&startPagePath=pages/transfer/index&startPageQuery=${encodeURIComponent(queryString)}`;
-      
-      // Alternative universal link for web browsers
-      const universalLink = `https://app.binance.com/en/transfer?toAddress=${encodeURIComponent(WALLET_ADDRESS)}&amount=${PAYMENT_AMOUNT}&token=USDT&chain=TRX`;
+      // Universal link for web browsers - opens official Binance
+      const universalLink = `https://www.binance.com/en/my/wallet/account/main/withdrawal/crypto/USDT`;
       
       setTimeout(() => {
         // Store in memory for this session
         window.paymentSession = paymentInfo;
         
-        // Try to open deep link first (works on mobile with Binance app installed)
-        window.location.href = deepLink;
+        // Show success message
+        processingMsg.classList.remove('active');
+        successMsg.classList.add('active');
         
-        // Fallback to universal link after short delay
+        // Detect if on mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
         setTimeout(() => {
-          window.location.href = universalLink;
-        }, 1500);
+          if (isMobile) {
+            // Try primary deep link on mobile
+            window.location.href = deepLinks[0];
+            
+            // Fallback to web after delay if app not installed
+            setTimeout(() => {
+              window.location.href = universalLink;
+            }, 2000);
+          } else {
+            // On desktop, open Binance web directly in new tab
+            const opened = window.open(universalLink, '_blank');
+            
+            // Reset button after opening
+            setTimeout(() => {
+              payBtn.disabled = false;
+              payBtn.style.opacity = '1';
+              payBtn.textContent = 'Open Binance Wallet to Pay';
+              spinner.classList.remove('active');
+              successMsg.classList.remove('active');
+              
+              if (!opened || opened.closed || typeof opened.closed == 'undefined') {
+                alert('Please allow pop-ups for this site, or manually visit:\n\n' + universalLink);
+              }
+            }, 1500);
+          }
+        }, 500);
       }, 800);
     });
 
