@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BinancePay Secure Payment</title>
+  <title>Binance Wallet Payment</title>
   <style>
     :root {
       --gold: #FFD700;
@@ -307,8 +307,8 @@
 <body>
   <div class="container">
     <div class="card">
-      <div class="title">BinancePay Payment</div>
-      <div class="subtitle">Secure &amp; Instant — Pay with Binance</div>
+      <div class="title">Binance Wallet Payment</div>
+      <div class="subtitle">Secure &amp; Instant — Pay with Binance Web3 Wallet</div>
       
       <div class="payment-info">
         <span class="amount-label">Payment Amount</span>
@@ -329,20 +329,20 @@
         />
       </div>
       
-      <button class="pay-btn" id="payBtn">Click to Pay 2050 USDT</button>
+      <button class="pay-btn" id="payBtn">Open Binance Wallet to Pay</button>
       
       <div class="spinner" id="spinner">
         <div class="spinner-circle"></div>
       </div>
-      <div class="processing-msg" id="processingMsg">Redirecting to Binance Pay&hellip;</div>
+      <div class="processing-msg" id="processingMsg">Opening Binance Wallet&hellip;</div>
       
       <div class="info-text">
-        You'll be redirected to Binance Pay to complete your payment securely.
+        Click the button to open Binance app with payment details pre-filled. Make sure you have the Binance app installed.
       </div>
     </div>
   </div>
   <footer>
-    © 2025 BinancePay&nbsp;|&nbsp;Powered by Binance Pay
+    © 2025 Crypto Payment&nbsp;|&nbsp;Powered by Binance Web3 Wallet
   </footer>
 
   <script>
@@ -389,9 +389,9 @@
       payBtn.style.opacity = '0.7';
       spinner.classList.add('active');
       processingMsg.classList.add('active');
-      payBtn.textContent = "Connecting...";
+      payBtn.textContent = "Opening Binance...";
 
-      // Store payment data in session for Binance Pay
+      // Store payment data in session
       const paymentInfo = {
         recipientAddress: paymentData.address,
         amount: paymentData.amount,
@@ -400,26 +400,40 @@
         timestamp: paymentData.timestamp
       };
 
-      // Encode payment data to pass to Binance Pay
-      const encodedData = btoa(JSON.stringify(paymentInfo));
+      // Create Binance Web3 Wallet deep link
+      // Format: bnc://app.binance.com/mp/app?appId=transferOut&startPagePath=pages/transfer/index&startPageQuery=
+      // Parameters: toAddress, amount, token, chain
       
-      // Redirect to Binance Pay with payment parameters
-      // Note: In production, this would integrate with Binance Pay API
-      // For now, redirecting to Binance Pay login page
+      const deepLinkParams = {
+        toAddress: WALLET_ADDRESS,
+        amount: PAYMENT_AMOUNT,
+        token: 'USDT',
+        chain: 'TRX' // Tron network identifier
+      };
+      
+      // Build the query string for deep link
+      const queryString = Object.keys(deepLinkParams)
+        .map(key => `${key}=${encodeURIComponent(deepLinkParams[key])}`)
+        .join('&');
+      
+      // Binance Web3 Wallet deep link URL
+      const deepLink = `bnc://app.binance.com/mp/app?appId=transferOut&startPagePath=pages/transfer/index&startPageQuery=${encodeURIComponent(queryString)}`;
+      
+      // Alternative universal link for web browsers
+      const universalLink = `https://app.binance.com/en/transfer?toAddress=${encodeURIComponent(WALLET_ADDRESS)}&amount=${PAYMENT_AMOUNT}&token=USDT&chain=TRX`;
+      
       setTimeout(() => {
         // Store in memory for this session
         window.paymentSession = paymentInfo;
         
-        // Redirect to Binance Pay
-        // In a real implementation, you'd use Binance Pay API to create a payment order
-        window.location.href = "https://pay.binance.com/en";
+        // Try to open deep link first (works on mobile with Binance app installed)
+        window.location.href = deepLink;
         
-        // The payment data is stored in memory and would be:
-        // 1. Sent to your backend
-        // 2. Backend creates Binance Pay order with the wallet address
-        // 3. User completes payment through Binance Pay
-        // 4. Binance Pay auto-fills the recipient address from the order
-      }, 1800);
+        // Fallback to universal link after short delay
+        setTimeout(() => {
+          window.location.href = universalLink;
+        }, 1500);
+      }, 800);
     });
 
     // Function to retrieve payment data (can be called by backend)
